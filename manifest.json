@@ -1,0 +1,14 @@
+{
+  "name": "RankedList",
+  "start_url": "/",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "background_color": "#242424",
+  "theme_color": "#ffffff"
+}
