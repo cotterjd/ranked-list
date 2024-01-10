@@ -16,9 +16,7 @@
 
 <script>
 export default {
-  components: {
-    HelloWorld,
-  },
+  components: {},
   data: () => ({
     keyword: ``,
     visibleItems: [],
