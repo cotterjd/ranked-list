@@ -6,6 +6,7 @@
     <button @click="search">Search</button>
     <button @click="addItem">Add item</button>
   </div>
+  <button @click="sort">Sort</button>
   <div v-for="item in visibleItems" class="item" :key="item.name">
     <span @click="bumpDown(item)">-</span>
     <span>{{ item.name }}</span>
@@ -30,7 +31,6 @@ export default {
   watch: {
     items: {
       handler: function (val) {
-        this.visibleItems = val.sort((a, b) => b.number - a.number);
         storage.add(`readingList`, this.items);
       },
       deep: true,
@@ -68,6 +68,9 @@ export default {
     search() {
       this.visibleItems = this.items.filter((i) => i.name.toLowerCase().indexOf(this.keyword.toLowerCase()) !== -1);
     },
+    sort() {
+      this.visibleItems = this.items.sort((a, b) => b.number - a.number);
+    }
   },
   mounted() {
     this.items = storage.get(`readingList`) || [];
