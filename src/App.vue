@@ -12,10 +12,12 @@
     <span>{{ item.number }}</span>
     <span @click="bumpUp(item)">+</span>
   </div>
+  <div class="center">{{ version }}</div>
 </template>
 
-<script>
+<script lang="ts">
 import { storage } from './utils'
+import packageJson from '../package.json'
 
 export default {
   components: {},
@@ -23,6 +25,7 @@ export default {
     keyword: ``,
     visibleItems: [],
     items: [],
+    version: packageJson.version,
   }),
   watch: {
     items: {
@@ -103,5 +106,9 @@ button {
 }
 .button-container {
   display: flex;
+}
+.center {
+  display: flex;
+  justify-content: center;
 }
 </style>
