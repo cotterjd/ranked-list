@@ -15,30 +15,20 @@
 </template>
 
 <script>
+import { storage } from './utils'
+
 export default {
   components: {},
   data: () => ({
     keyword: ``,
     visibleItems: [],
-    items: [
-      {
-        name: `Foo`,
-        number: 1,
-      },
-      {
-        name: `Bar`,
-        number: 12,
-      },
-      {
-        name: `Baz`,
-        number: 6,
-      },
-    ],
+    items: [],
   }),
   watch: {
     items: {
       handler: function (val) {
         this.visibleItems = val.sort((a, b) => b.number - a.number);
+        storage.add(`readingList`, this.items);
       },
       deep: true,
     },
@@ -77,6 +67,7 @@ export default {
     },
   },
   mounted() {
+    this.items = storage.get(`readingList`) || [];
     this.visibleItems = this.items.sort((a, b) => b.number - a.number);
   },
 };
