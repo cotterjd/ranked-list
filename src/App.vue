@@ -15,7 +15,7 @@
   <div class="center">{{ version }}</div>
 </template>
 
-<script lang="ts">
+<script>
 import { storage } from './utils'
 import packageJson from '../package.json'
 
