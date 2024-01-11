@@ -1,6 +1,5 @@
 {
   "name": "ranked-list",
-  "homepage": "list.cotterslist.com",
   "private": true,
   "version": "0.0.0",
   "type": "module",
