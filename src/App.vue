@@ -12,8 +12,11 @@
     <span>{{ item.number }}</span>
     <span @click="bumpUp(item)">+</span>
   </div>
+  <br>
+  <br>
+  <br>
   <div class="center">{{ version }}</div>
-</template>
+  </template>
 
 <script>
 import { storage } from './utils'
