@@ -3,10 +3,9 @@
     <input v-model="keyword" placeholder="New Items" />
   </div>
   <div class="button-container">
-    <button @click="search">Search</button>
-    <button @click="addItem">Add item</button>
+    <button v-if="visibleItems.length > 1" @click="sort">Sort</button>
+    <button v-else @click="addItem">Add item</button>
   </div>
-  <button @click="sort">Sort</button>
   <div v-for="item in visibleItems" class="item" :key="item.name">
     <span @click="bumpDown(item)">-</span>
     <span>{{ item.name }}</span>
@@ -39,6 +38,8 @@ export default {
       handler: function (val) {
         if (val === ``) {
           this.visibleItems = this.items.sort((a, b) => b.number - a.number);
+        } else {
+          this.visibleItems = this.items.filter((i) => i.name.toLowerCase().indexOf(this.keyword.toLowerCase()) !== -1);
         }
       },
       deep: true,
@@ -64,9 +65,6 @@ export default {
         }
       }
       item.number = newNum;
-    },
-    search() {
-      this.visibleItems = this.items.filter((i) => i.name.toLowerCase().indexOf(this.keyword.toLowerCase()) !== -1);
     },
     sort() {
       this.visibleItems = this.items.sort((a, b) => b.number - a.number);
