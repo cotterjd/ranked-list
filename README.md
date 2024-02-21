@@ -1,7 +1,11 @@
 # Ranked List
+## Getting Started
+1. `git clone https://github.com/cotterjd/ranked-list.git`<br>
+2. `cd ranked-list` <br>
+3. `yarn install && yarn dev`<br>
+4. navigate to localhost:5173 in your browser
 
 ![Screenshot_20240219_141926](https://github.com/cotterjd/ranked-list/assets/2576700/c086b0fd-3eff-4865-b647-ee8c4c51e7f3)
-
 
 # Vue 3 + TypeScript + Vite
 
