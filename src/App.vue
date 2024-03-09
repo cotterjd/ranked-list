@@ -12,15 +12,15 @@
     <span>{{ item.number }}</span>
     <span @click="bumpUp(item)">+</span>
   </div>
-  <br>
-  <br>
-  <br>
+  <br />
+  <br />
+  <br />
   <div class="center">{{ version }}</div>
-  </template>
+</template>
 
 <script>
-import { storage } from './utils'
-import packageJson from '../package.json'
+import { storage } from "./utils";
+import packageJson from "../package.json";
 
 export default {
   components: {},
@@ -42,7 +42,10 @@ export default {
         if (val === ``) {
           this.visibleItems = this.items.sort((a, b) => b.number - a.number);
         } else {
-          this.visibleItems = this.items.filter((i) => i.name.toLowerCase().indexOf(this.keyword.toLowerCase()) !== -1);
+          this.visibleItems = this.items.filter(
+            (i) =>
+              i.name.toLowerCase().indexOf(this.keyword.toLowerCase()) !== -1
+          );
         }
       },
       deep: true,
@@ -71,7 +74,7 @@ export default {
     },
     sort() {
       this.visibleItems = this.items.sort((a, b) => b.number - a.number);
-    }
+    },
   },
   mounted() {
     this.items = storage.get(`readingList`) || [];
@@ -86,7 +89,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   width: calc(100vw - 40px);
-  height: 50px;
+  min-height: 50px;
   border: 1px solid #ccc;
   margin-bottom: 10px;
   padding-left: 20px;
