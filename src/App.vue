@@ -86,7 +86,8 @@ export default {
   justify-content: space-between;
   align-items: center;
   width: calc(100vw - 40px);
-  height: 50px;
+  min-height: 50px;
+  overflow-wrap: anywhere;
   border: 1px solid #ccc;
   margin-bottom: 10px;
   padding-left: 20px;
