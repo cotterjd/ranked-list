@@ -39,25 +39,24 @@ export default {
     },
     keyword: {
       handler: function (val) {
-        if (val === ``) {
-          this.visibleItems = this.items.sort((a, b) => b.number - a.number);
-        } else {
-          this.visibleItems = this.items.filter(
-            (i) =>
-              i.name.toLowerCase().indexOf(this.keyword.toLowerCase()) !== -1
-          );
-        }
+        //if (val === ``) {
+          //this.visibleItems = this.items.sort((a, b) => b.number - a.number);
+        //} else {
+          this.visibleItems = this.items.filter((i) => i.name.toLowerCase().indexOf(this.keyword.toLowerCase()) !== -1);
+        //}
       },
       deep: true,
     },
   },
   methods: {
     addItem() {
-      this.items.push({
-        name: this.keyword,
+      const name=this.keyword
+      this.keyword = ``;
+      this.items.unshift({
+        name,
         number: 0,
       });
-      this.keyword = ``;
+      
     },
     bumpUp(item) {
       item.number++;
