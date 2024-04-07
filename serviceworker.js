@@ -1,11 +1,11 @@
 const CACHE_NAME = 'ranked-list-cache-v1';
 const urlsToCache = [
   '/',
-  '/dist/index.html',
-  '/dist/assets/index-12de2e03.css',
-  '/dist/assets/index-2c6aafbc.js',
-  '/dist/assets/vue-5532db34.svg',
-  '/dist/vite.svg',
+  '/index.html',
+  '/assets/index-12de2e03.css',
+  '/assets/index-2c6aafbc.js',
+  '/assets/vue-5532db34.svg',
+  '/vite.svg',
   // '/offline.html',
   // Add more URLs to cache here
 ];
