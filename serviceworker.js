@@ -11,6 +11,7 @@ const urlsToCache = [
 ];
 
 self.addEventListener('install', (event) => {
+  self.registration.scope = 'https://list.cotterslist.com';
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(urlsToCache);
@@ -46,7 +47,7 @@ self.addEventListener('fetch', (event) => {
       });
     }).catch(() => {
       // If both the network and the cache fail, show an offline fallback
-      return caches.match('/dist/index.html'); // TODO: make offline file? 
+      return caches.match('/index.html'); // TODO: make offline file? 
     })
   );
 });
