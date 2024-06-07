@@ -1,14 +1,14 @@
 {
   "name": "ranked-list",
   "private": true,
-  "version": "0.5.6",
+  "version": "0.5.7",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "predeploy": "yarn build",
-    "deploy": "echo list.cotterslist.com > dist/CNAME && cp serviceworker.js dist/ && gh-pages -d dist"
+    "deploy": "echo list.cotterslist.com > dist/CNAME && cp serviceworker.js dist/ && cp manifest.json dist/ && gh-pages -d dist"
   },
   "dependencies": {
     "vue": "^3.3.4"
