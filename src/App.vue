@@ -8,9 +8,19 @@
   </div>
   <div v-for="item in visibleItems" class="item" :key="item.name">
     <span @click="bumpDown(item)">-</span>
-    <span>{{ item.name }}</span>
+    <span @click="openDetails(item)">{{ item.name }}</span>
     <span>{{ item.number }}</span>
     <span @click="bumpUp(item)">+</span>
+  </div>
+  <div v-show="isShowingDetails" class="details">
+    <p v-if="isEditingDetails">
+      <textarea v-model="detailsInput"></textarea>
+    </p>
+    <p v-else>
+      <p v-for="detail in getItemDetails(currentItem)?.split(`.`)">{{detail}}</p>
+    </p>
+    <button @click="manageDetails">{{isEditingDetails ? 'save' : 'edit'}}</button>
+    <button @click="onClose">{{isEditingDetails ? 'cancel' : 'close'}}</button>
   </div>
   <br />
   <br />
@@ -28,7 +38,11 @@ export default {
     keyword: ``,
     visibleItems: [],
     items: [],
+    isEditingDetails: false,
     version: packageJson.version,
+    isShowingDetails: false,
+    currentItem: {},
+    detailsInput: ``,
   }),
   watch: {
     items: {
@@ -39,11 +53,7 @@ export default {
     },
     keyword: {
       handler: function (val) {
-        //if (val === ``) {
-          //this.visibleItems = this.items.sort((a, b) => b.number - a.number);
-        //} else {
-          this.visibleItems = this.items.filter((i) => i.name.toLowerCase().indexOf(this.keyword.toLowerCase()) !== -1);
-        //}
+        this.visibleItems = this.items.filter((i) => i.name.toLowerCase().indexOf(this.keyword.toLowerCase()) !== -1);
       },
       deep: true,
     },
@@ -56,7 +66,6 @@ export default {
         name,
         number: 0,
       });
-      
     },
     bumpUp(item) {
       item.number++;
@@ -71,9 +80,37 @@ export default {
       }
       item.number = newNum;
     },
+    manageDetails() {
+      if (this.isEditingDetails) {
+        // save
+        this.currentItem.details = this.detailsInput;
+        this.isEditingDetails = false;
+        this.showDetails = false;
+      } else {
+        // edit
+        this.detailsInput = this.currentItem.details;
+        this.isEditingDetails = true;
+      }
+    },
     sort() {
       this.visibleItems = this.items.sort((a, b) => b.number - a.number);
     },
+    openDetails(item) {
+      this.isShowingDetails = !this.isShowingDetails; 
+      this.currentItem = item;
+    },
+    onClose () {
+      if (this.isEditingDetails) {
+        this.isEditingDetails = false;
+        this.detailsInput = ``;
+      } else {
+        this.isShowingDetails = false;
+        this.detailsInput = ``;
+      }
+    },
+    getItemDetails(item) {
+      return item.details;
+    }
   },
   mounted() {
     this.items = storage.get(`readingList`) || [];
@@ -116,5 +153,11 @@ button {
 .center {
   display: flex;
   justify-content: center;
+}
+.details {
+  position: absolute;
+  top: 0;
+  background: white;
+  color: black;
 }
 </style>
