@@ -17,7 +17,7 @@
       <textarea v-model="detailsInput"></textarea>
     </p>
     <p v-else>
-      <p v-for="detail in getItemDetails(currentItem)?.split(`.`)">{{detail}}</p>
+      <p v-for="detail in getItemDetails(currentItem)?.split(`|`)">{{detail}}</p>
     </p>
     <button @click="manageDetails">{{isEditingDetails ? 'save' : 'edit'}}</button>
     <button @click="onClose">{{isEditingDetails ? 'cancel' : 'close'}}</button>
