@@ -3,9 +3,8 @@ const urlsToCache = [
   '/',
   '/index.html',
   '/assets/index-ffaeb7b9.css',
-  '/assets/index-6e224326.js',
-  '/assets/vue-5532db34.svg',
-  '/vite.svg',
+  '/assets/index-b36a00cf.js',
+  '/icon.png',
   // '/offline.html',
   // Add more URLs to cache here
 ];
