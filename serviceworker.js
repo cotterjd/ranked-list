@@ -3,7 +3,7 @@ const urlsToCache = [
   '/',
   '/index.html',
   '/assets/index-ffaeb7b9.css',
-  '/assets/index-2a2ef88a.js',
+  '/assets/index-b36a00cf.js',
   '/icon.png',
   // '/offline.html',
   // Add more URLs to cache here
