@@ -1,31 +1,34 @@
 <template>
-  <div>
-    <input v-model="keyword" placeholder="New Items" />
+  <div @mousedown="startPress" @mouseup="endPress">
+    <div>
+      <input v-model="keyword" placeholder="New Items" />
+    </div>
+                
+    <div class="button-container">
+      <button v-if="visibleItems.length > 1" @click="sort">Sort</button>
+      <button v-else @click="addItem">Add item</button>
+    </div>
+    <div v-for="item in visibleItems" class="item" :key="item.name">
+      <span @click="bumpDown(item)">-</span>
+      <span @click="openDetails(item)">{{ item.name }}</span>
+      <span>{{ item.number }}</span>
+      <span @click="bumpUp(item)">+</span>
+    </div>
+    <div v-show="isShowingDetails" class="details">
+      <p v-if="isEditingDetails">
+        <textarea v-model="detailsInput"></textarea>
+      </p>
+      <p v-else>
+        <p v-for="detail in getItemDetails(currentItem)?.split(`|`)">{{detail}}</p>
+      </p>
+      <button @click="manageDetails">{{isEditingDetails ? 'save' : 'edit'}}</button>
+      <button @click="onClose">{{isEditingDetails ? 'cancel' : 'close'}}</button>
+    </div>
+    <br />
+    <br />
+    <br />
+    <div class="center">{{ version }}</div>
   </div>
-  <div class="button-container">
-    <button v-if="visibleItems.length > 1" @click="sort">Sort</button>
-    <button v-else @click="addItem">Add item</button>
-  </div>
-  <div v-for="item in visibleItems" class="item" :key="item.name">
-    <span @click="bumpDown(item)">-</span>
-    <span @click="openDetails(item)">{{ item.name }}</span>
-    <span>{{ item.number }}</span>
-    <span @click="bumpUp(item)">+</span>
-  </div>
-  <div v-show="isShowingDetails" class="details">
-    <p v-if="isEditingDetails">
-      <textarea v-model="detailsInput"></textarea>
-    </p>
-    <p v-else>
-      <p v-for="detail in getItemDetails(currentItem)?.split(`|`)">{{detail}}</p>
-    </p>
-    <button @click="manageDetails">{{isEditingDetails ? 'save' : 'edit'}}</button>
-    <button @click="onClose">{{isEditingDetails ? 'cancel' : 'close'}}</button>
-  </div>
-  <br />
-  <br />
-  <br />
-  <div class="center">{{ version }}</div>
 </template>
 
 <script>
@@ -43,6 +46,7 @@ export default {
     isShowingDetails: false,
     currentItem: {},
     detailsInput: ``,
+    pressing: false,
   }),
   watch: {
     items: {
@@ -59,6 +63,17 @@ export default {
     },
   },
   methods: {
+    startPress() {
+      this.pressing = true;
+      setTimeout(() => {
+        if (this.pressing) {
+          console.log(`long press`);
+        }
+      }, 1000);
+    },
+    endPress() {
+      this.pressing = false;
+    },
     addItem() {
       const name=this.keyword
       this.keyword = ``;
