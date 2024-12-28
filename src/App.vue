@@ -1,5 +1,6 @@
 <template>
   <div @mousedown="startPress" @mouseup="endPress">
+    <h2>{{ chosenList }}</h2>
     <div>
       <input v-model="keyword" placeholder="New Items" />
     </div>
@@ -28,6 +29,12 @@
     <br />
     <br />
     <div class="center">{{ version }}</div>
+    <div v-show="openMenu" class="center modal">
+      <button @click="openMenu = false">Close</button>
+      <button class="listBtn" v-for="list in lists" @click="onChooseList(list)">{{list}}</button>
+      <input v-model="listName" placeholder="New List Name" />
+      <button @click="onAddNewList">Add List</button>
+    </div>
   </div>
 </template>
 
@@ -47,11 +54,14 @@ export default {
     currentItem: {},
     detailsInput: ``,
     pressing: false,
+    openMenu: false,
+    chosenList: `Master list`,
+    lists: [],
   }),
   watch: {
     items: {
       handler: function (val) {
-        storage.add(`readingList`, this.items);
+        storage.add(this.chosenList, this.items);
       },
       deep: true,
     },
@@ -67,7 +77,8 @@ export default {
       this.pressing = true;
       setTimeout(() => {
         if (this.pressing) {
-          console.log(`long press`);
+          console.log(`open menu`)
+          this.openMenu = true
         }
       }, 1000);
     },
@@ -94,6 +105,15 @@ export default {
         }
       }
       item.number = newNum;
+    },
+    onAddNewList() {
+      storage.add(this.listName, [{ name: ``, number: 0 }]);
+      this.lists = storage.keys() || [];
+    },
+    onChooseList(listName) {
+      this.chosenList = listName;
+      this.openMenu = false;
+      this.populateList();
     },
     manageDetails() {
       if (this.isEditingDetails) {
@@ -125,11 +145,15 @@ export default {
     },
     getItemDetails(item) {
       return item.details;
+    },
+    populateList() {
+      this.items = storage.get(this.chosenList) || [];
+      this.visibleItems = this.items.sort((a, b) => b.number - a.number);
     }
   },
   mounted() {
-    this.items = storage.get(`readingList`) || [];
-    this.visibleItems = this.items.sort((a, b) => b.number - a.number);
+    this.populateList();
+    this.lists = storage.keys() || [];
   },
 };
 </script>
@@ -174,5 +198,21 @@ button {
   top: 0;
   background: white;
   color: black;
+}
+.listBtn {
+  width: 50%;
+}
+.modal {
+  position: absolute;
+  top: 0;
+  background: white;
+  color: black;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 </style>

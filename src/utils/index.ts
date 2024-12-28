@@ -5,5 +5,9 @@ export const storage = {
 
   get: (listName: string): any => {
     return JSON.parse(localStorage.getItem(listName) || '[]')
+  },
+
+  keys: (): string[] => {
+    return Object.keys(localStorage)
   }
 }
