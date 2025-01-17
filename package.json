@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "predeploy": "vue-tsc && vite build",
     "preview": "vite preview",
     "deploy": "echo list.cotterslist.com > dist/CNAME && cp serviceworker.js dist/ && cp manifest.json dist/ && gh-pages -d dist"
   },
