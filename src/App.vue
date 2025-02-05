@@ -1,5 +1,5 @@
 <template>
-  <div @mousedown="startPress" @mouseup="endPress">
+  <div @mousedown="startPress" @mouseup="endPress" @touchstart="startPress" @touchend="endPress">
     <h2>{{ chosenList }}</h2>
     <div>
       <input v-model="keyword" placeholder="New Items" />
