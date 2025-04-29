@@ -78,9 +78,9 @@ export default {
       setTimeout(() => {
         if (this.pressing) {
           console.log(`open menu`)
-          this.openMenu = true
+          if (this.pressing) this.openMenu = true
         }
-      }, 1000);
+      }, 2000);
     },
     endPress() {
       this.pressing = false;
