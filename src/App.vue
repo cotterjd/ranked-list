@@ -1,5 +1,6 @@
 <template>
-  <div @mousedown="startPress" @mouseup="endPress" @touchstart="startPress" @touchend="endPress">
+  <div>
+    <button @click="openMenu = true">Menu</button>
     <h2>{{ chosenList }}</h2>
     <div>
       <input v-model="keyword" placeholder="New Items" />
@@ -73,18 +74,6 @@ export default {
     },
   },
   methods: {
-    startPress() {
-      this.pressing = true;
-      setTimeout(() => {
-        if (this.pressing) {
-          console.log(`open menu`)
-          if (this.pressing) this.openMenu = true
-        }
-      }, 2000);
-    },
-    endPress() {
-      this.pressing = false;
-    },
     addItem() {
       const name=this.keyword
       this.keyword = ``;
