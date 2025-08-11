@@ -1,13 +1,13 @@
 {
   "name": "ranked-list",
   "private": true,
-  "version": "0.7.3",
+  "version": "0.8.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "predeploy": "vue-tsc && vite build",
     "preview": "vite preview",
-    "deploy": "echo list.cotterslist.com > dist/CNAME && cp serviceworker.js dist/ && cp manifest.json dist/ && gh-pages -d dist"
+    "deploy": "echo list.cotterslist.com > dist/CNAME && gh-pages -d dist"
   },
   "dependencies": {
     "register-service-worker": "^1.7.2",

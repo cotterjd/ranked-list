@@ -1,0 +1,19 @@
+{
+  "name": "RankedList",
+  "short_name": "RankedList",
+  "description": "A simple app for creating and managing ranked lists",
+  "start_url": "https://list.cotterslist.com",
+  "display": "standalone",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "background_color": "#242424",
+  "theme_color": "#ffffff",
+  "categories": ["productivity", "utilities"]
+}
