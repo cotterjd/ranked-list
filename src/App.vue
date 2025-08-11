@@ -35,6 +35,7 @@
       <button class="listBtn" v-for="list in lists" @click="onChooseList(list)">{{list}}</button>
       <input v-model="listName" placeholder="New List Name" />
       <button @click="onAddNewList">Add List</button>
+      <button v-if="items.length > 0" @click="exportToCsv">Export CSV</button>
     </div>
   </div>
 </template>
@@ -134,6 +135,33 @@ export default {
     },
     getItemDetails(item) {
       return item.details;
+    },
+    exportToCsv() {
+      // Create CSV content with header
+      let csvContent = "name,number\n";
+      
+      // Sort items by number (highest to lowest) for export
+      const sortedItems = [...this.items].sort((a, b) => b.number - a.number);
+      
+      // Add each item to CSV content
+      sortedItems.forEach(item => {
+        // Escape quotes in name and wrap in quotes if contains comma
+        const escapedName = item.name.includes('"') ? item.name.replace(/"/g, '""') : item.name;
+        const quotedName = item.name.includes(',') || item.name.includes('"') ? `"${escapedName}"` : escapedName;
+        csvContent += `${quotedName},${item.number}\n`;
+      });
+      
+      // Create blob and download
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', `${this.chosenList.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_ranked_list.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
     },
     populateList() {
       this.items = storage.get(this.chosenList) || [];
