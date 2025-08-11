@@ -36,6 +36,14 @@
       <input v-model="listName" placeholder="New List Name" />
       <button @click="onAddNewList">Add List</button>
       <button v-if="items.length > 0" @click="exportToCsv">Export CSV</button>
+      <input 
+        type="file" 
+        ref="csvFileInput" 
+        accept=".csv" 
+        @change="handleFileUpload" 
+        style="display: none;"
+      />
+      <button @click="$refs.csvFileInput.click()">Import CSV</button>
     </div>
   </div>
 </template>
@@ -135,6 +143,110 @@ export default {
     },
     getItemDetails(item) {
       return item.details;
+    },
+    handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      if (!file.name.toLowerCase().endsWith('.csv')) {
+        alert('Please select a CSV file.');
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const csvContent = e.target.result;
+          const lines = csvContent.split('\n').filter(line => line.trim());
+          
+          if (lines.length === 0) {
+            alert('The CSV file is empty.');
+            return;
+          }
+          
+          // Check if first line is header (contains "name" and "number")
+          const firstLine = lines[0].toLowerCase();
+          const hasHeader = firstLine.includes('name') && firstLine.includes('number');
+          const dataLines = hasHeader ? lines.slice(1) : lines;
+          
+          if (dataLines.length === 0) {
+            alert('No data found in the CSV file.');
+            return;
+          }
+          
+          // Confirm before replacing current data
+          const confirmMessage = `This will replace all ${this.items.length} items in "${this.chosenList}" with ${dataLines.length} items from the CSV. Continue?`;
+          if (!confirm(confirmMessage)) {
+            return;
+          }
+          
+          // Parse CSV data
+          const newItems = [];
+          for (let i = 0; i < dataLines.length; i++) {
+            const line = dataLines[i].trim();
+            if (!line) continue;
+            
+            const parsed = this.parseCSVLine(line);
+            if (parsed.length >= 2) {
+              const name = parsed[0].trim();
+              const number = parseFloat(parsed[1]);
+              
+              if (name && !isNaN(number)) {
+                newItems.push({ name, number });
+              }
+            }
+          }
+          
+          if (newItems.length === 0) {
+            alert('No valid data found in the CSV file. Please ensure it has name and number columns.');
+            return;
+          }
+          
+          // Replace current items
+          this.items = newItems;
+          this.visibleItems = [...newItems].sort((a, b) => b.number - a.number);
+          
+          // Clear file input
+          event.target.value = '';
+          
+          alert(`Successfully imported ${newItems.length} items.`);
+          
+        } catch (error) {
+          alert('Error reading CSV file: ' + error.message);
+        }
+      };
+      
+      reader.readAsText(file);
+    },
+    parseCSVLine(line) {
+      const result = [];
+      let current = '';
+      let inQuotes = false;
+      
+      for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        
+        if (char === '"') {
+          if (inQuotes && line[i + 1] === '"') {
+            // Escaped quote
+            current += '"';
+            i++; // Skip next quote
+          } else {
+            // Toggle quote state
+            inQuotes = !inQuotes;
+          }
+        } else if (char === ',' && !inQuotes) {
+          // End of field
+          result.push(current);
+          current = '';
+        } else {
+          current += char;
+        }
+      }
+      
+      // Add final field
+      result.push(current);
+      return result;
     },
     exportToCsv() {
       // Create CSV content with header
