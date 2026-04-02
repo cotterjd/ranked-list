@@ -1,7 +1,7 @@
 <template>
   <div>
     <button @click="openMenu = true">Menu</button>
-    <h2>{{ chosenList }}</h2>
+    <h2>{{ chosenList }} ({{ items.length }})</h2>
     <div>
       <input v-model="keyword" placeholder="New Items" />
     </div>
